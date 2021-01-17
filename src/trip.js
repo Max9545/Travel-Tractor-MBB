@@ -1,6 +1,6 @@
 class Trip {
-    constructor() {
-        this.name = 'Tim'
+    constructor(tripInfo) {
+        this.date = tripInfo.date
     }
 }
 module.exports = Trip
