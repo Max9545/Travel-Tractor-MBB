@@ -9,7 +9,7 @@ import Trip from '/Users/maxbregman/Turing_Main/Mod2/projects/Mod2_Travel_Tracto
 let newTrip
 let testTripObj
 
-describe('See if the tests are running', function() {
+describe('Make a useful Trip Class', function() {
     beforeEach(() => {
         newTrip = new Trip(tripsTestData[0])
         testTripObj = tripsTestData[0]
@@ -19,7 +19,7 @@ describe('See if the tests are running', function() {
 
     it('should return a date', function() {
         // console.log(travelersTestData)
-        console.log(testTripObj);
+        // console.log(testTripObj);
         // console.log(destinationsTestData);
 
         expect(newTrip.date).to.equal(testTripObj.date);
