@@ -17,17 +17,24 @@ describe('See if the tests are running', function() {
 
 
 
-    it.only('should return a date', function() {
+    it('should return a date', function() {
         // console.log(travelersTestData)
-        // console.log(tripsTestData);
+        console.log(testTripObj);
         // console.log(destinationsTestData);
 
         expect(newTrip.date).to.equal(testTripObj.date);
     });
 
 
-    it('should have a date', function() {
-        const newTrip = new Trip(tripsTestData[0])
-        console.log(tripsTestData[0]);
+    it('should return a duration', function() {
+        expect(newTrip.duration).to.equal(testTripObj.duration);
     })
-});
+
+    it('should return a number of travelers', function() {
+        expect(newTrip.travelers).to.equal(testTripObj.travelers);
+    })
+
+    it('should return a destinationID', function() {
+        expect(newTrip.destinationID).to.equal(testTripObj.destinationID);
+    })
+})
