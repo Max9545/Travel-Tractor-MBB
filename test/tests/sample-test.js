@@ -17,7 +17,7 @@ describe('See if the tests are running', function() {
 
 
 
-    it.only('should return a date', function() {
+    it('should return a date', function() {
         // console.log(travelersTestData)
         // console.log(tripsTestData);
         // console.log(destinationsTestData);
@@ -26,8 +26,7 @@ describe('See if the tests are running', function() {
     });
 
 
-    it('should have a date', function() {
-        const newTrip = new Trip(tripsTestData[0])
-        console.log(tripsTestData[0]);
+    it('should return a duration', function() {
+        expect(newTrip.duration).to.equal(testTripObj.duration);
     })
-});
+})
