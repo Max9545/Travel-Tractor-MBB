@@ -18,22 +18,26 @@ console.log('This is the JavaScript entry file - your code begins here.');
 const fetchedTravelers = apiCalls.getTravelers()
 const fetchedTrips = apiCalls.getTrips()
 const fetchedDestinations = apiCalls.getDestinations()
-
+let allTripsData
 
 Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
     .then(values => {
         showStuff(values[0])
-        showStuff(values[1])
+        allTripsData = values[1];
         showStuff(values[2])
     }).catch('o no!')
 
-const tim = new Trip()
+
 
 function showStuff(stuff) {
-    console.log(stuff)
-    console.log(tim.name);
+    // console.log(stuff)
 }
 
-// function setData() {
-//     travelers = apiCalls.loadData('http://localhost:3001/api/v1/travelers')
-// }
+function makeTrips(fetchedData) {
+    allTripsData = fetchedData.map(trip => new Trip(trip))
+    console.log(fetchedData)
+}
+console.log(allTripsData)
+    // function setData() {
+    //     travelers = apiCalls.loadData('http://localhost:3001/api/v1/travelers')
+    // }

@@ -4,8 +4,33 @@ $primary-background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(252, 
 ;
 body {
     background: $primary-background;
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 40px 2fr;
+    grid-template-areas: "h1 annual-cost" "booking booking" "card-grid card-grid"
 }
 
 img {
-    height: 5em,
+    height: 5em;
+}
+
+h1 {
+    background-color: red;
+    grid-area: h1;
+}
+
+.annual-cost {
+    background-color: blue;
+    grid-area: annual-cost;
+}
+
+.booking {
+    background-color: yellowgreen;
+    grid-area: booking;
+}
+
+.card-grid {
+    background-color: turquoise;
+    grid-area: card-grid;
 }
