@@ -29,8 +29,10 @@ describe('Make a User Class', function() {
         console.log(testUserData);
         expect(user.id).to.equal(testUserData.id)
     })
-    it.skip('should return an estimated cost for the year', function() {
-        console.log(testUserData);
-        expect(user.estimatedCost).to.equal(9)
+    it.only('should return an estimated cost for the year (plus agents 10%)', function() {
+
+        let estimatedCost = user.calculateSumCostOfYear(tripsTestData, destinationsTestData)
+
+        expect(estimatedCost).to.equal(1155)
     })
 })
