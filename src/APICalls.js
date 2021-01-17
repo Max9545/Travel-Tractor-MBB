@@ -25,7 +25,7 @@ let apiCalls = {
             // .then(data => )
     },
     getTrips() {
-        return fetch('http://localhost:3001/api/v1/destinations')
+        return fetch('http://localhost:3001/api/v1/trips')
             .then(response => response.json())
 
     },
