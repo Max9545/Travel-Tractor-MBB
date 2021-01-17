@@ -5,9 +5,9 @@
 import './css/base.scss';
 import apiCalls from './APICalls.js';
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
+import './images/turing-logo.png';
 
-
+import Trip from './trip.js'
 
 
 
@@ -27,9 +27,11 @@ Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
         showStuff(values[2])
     }).catch('o no!')
 
+const tim = new Trip()
 
 function showStuff(stuff) {
     console.log(stuff)
+    console.log(tim.name);
 }
 
 // function setData() {
