@@ -11,10 +11,11 @@ import User from './user.js'
 
 const annualCost = document.querySelector('.annual-cost')
 const cardGrid = document.querySelector('.card-grid')
+const dateInput = document.querySelector('.date-input')
+const durationInput = document.querySelector('.duration-input')
+const travelersInput = document.querySelector('.travelers-input')
 
 console.log('This is the JavaScript entry file - your code begins here.');
-// window.addEventListener('load', setData)
-// const fetchedTravelers = apiCalls.loadData('http://localhost:3001/api/v1/travelers')
 
 
 const fetchedTravelers = apiCalls.loadData('travelers')
@@ -54,7 +55,9 @@ function makeTrips(fetchedData) {
 
 function displayTripCards(userObj) {
     userObj.userTrips.forEach(trip => {
+
         const destinationObj = userObj.userDestinations.find(destination => destination.id === trip.destinationID)
+
         cardGrid.innerHTML += `<article>
         <p class='destination-name'>${destinationObj.destination}</p>
         <img id='pic-destination' src=${destinationObj.image} alt=${destinationObj.alt}>
@@ -66,7 +69,11 @@ function displayTripCards(userObj) {
     })
 }
 
-
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
+}
+
+function postTrip() {
+    const newUserTripObj = new Trip({ date: dateInput, duration: durationInput, travelers: travelersInput })
+    apiCalls.postData(newUserTripObj)
 }
