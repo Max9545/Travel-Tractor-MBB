@@ -20,9 +20,12 @@ console.log('This is the JavaScript entry file - your code begins here.');
 // window.addEventListener('load', setData)
 // const fetchedTravelers = apiCalls.loadData('http://localhost:3001/api/v1/travelers')
 
-const fetchedTravelers = apiCalls.getTravelers()
-const fetchedTrips = apiCalls.getTrips()
-const fetchedDestinations = apiCalls.getDestinations()
+// const fetchedTravelers = apiCalls.getTravelers()
+// const fetchedTrips = apiCalls.getTrips()
+// const fetchedDestinations = apiCalls.getDestinations()
+const fetchedTravelers = apiCalls.loadData('travelers')
+const fetchedTrips = apiCalls.loadData('trips')
+const fetchedDestinations = apiCalls.loadData('destinations')
 let allTripsData, currentUser, allDestinations
 
 Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
@@ -32,28 +35,13 @@ Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
         makeUser(values[0])
     }).catch('o no!')
 
-// window.addEventListener('load', showStuff)
-
-// function showStuff() {
-//     annualCost.innerHTML = currentUser.calculateSumCostOfYear(allTripsData, allDestinations)
-//         //console.log(stuff)
-// }
 
 function makeUser(userObj) {
     currentUser = new User(userObj.travelers[getRandomInt(userObj.travelers.length)], allTripsData)
-
-    // console.log(allTripsData);
-    // console.log(allDestinations);
-    // console.log(currentUser.userDestinations);
     displayAnnualCost()
     currentUser.getDestinations(allDestinations)
+        //Steve help here- get this to work on instantiation
     displayTripCards(currentUser)
-
-    console.log(currentUser.userDestinations);
-    // annualCost.innerHTML = `You have spent ${currentUser.calculateSumCostOfYear(allTripsData, allDestinations)} ${currentUser.name}`
-    // showStuff()
-    // console.log(currentUser)
-    //  annualCost.innerText = userArray[0]
 }
 
 function displayAnnualCost() {
@@ -67,7 +55,7 @@ function makeDestinations(desinationObj) {
 
 function makeTrips(fetchedData) {
     allTripsData = fetchedData.trips
-        // console.log(allTripsData)
+        // use Trip class?
 }
 
 function displayTripCards(userObj) {
@@ -84,10 +72,7 @@ function displayTripCards(userObj) {
     })
 }
 
-// console.log(allTripsData)
-// function setData() {
-//     travelers = apiCalls.loadData('http://localhost:3001/api/v1/travelers')
-// }
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }

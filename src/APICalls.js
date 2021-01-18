@@ -18,27 +18,13 @@
 
 
 let apiCalls = {
-    loadData(url) {
-        return fetch(url)
+    loadData(type) {
+        return fetch(`http://localhost:3001/api/v1/${type}`)
             .then(response => response.json())
             // .then(data => data.data)
             // .then(data => )
     },
-    getTrips() {
-        return fetch('http://localhost:3001/api/v1/trips')
-            .then(response => response.json())
 
-    },
-    getTravelers() {
-        return fetch('http://localhost:3001/api/v1/travelers')
-            .then(response => response.json())
-
-    },
-    getDestinations() {
-        return fetch('http://localhost:3001/api/v1/destinations')
-            .then(response => response.json())
-
-    }
     // postData() {
 
     // }
