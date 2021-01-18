@@ -40,13 +40,19 @@ Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
 // }
 
 function makeUser(userObj) {
-    currentUser = new User(userObj.travelers[getRandomInt(userObj.travelers.length)])
-    console.log(allTripsData);
-    console.log(allDestinations);
-    annualCost.innerHTML = `You have spent ${currentUser.calculateSumCostOfYear(allTripsData, allDestinations)} ${currentUser.name}`
+    currentUser = new User(userObj.travelers[getRandomInt(userObj.travelers.length)], allTripsData)
+        // console.log(allTripsData);
+        // console.log(allDestinations);
+    console.log(currentUser.userTrips);
+    displayAnnualCost()
+        // annualCost.innerHTML = `You have spent ${currentUser.calculateSumCostOfYear(allTripsData, allDestinations)} ${currentUser.name}`
         // showStuff()
         // console.log(currentUser)
         //  annualCost.innerText = userArray[0]
+}
+
+function displayAnnualCost() {
+    annualCost.innerHTML = `You have spent ${currentUser.calculateSumCostOfYear(allTripsData, allDestinations)} ${currentUser.name}`
 }
 
 function makeDestinations(desinationObj) {

@@ -1,8 +1,9 @@
 class User {
-    constructor(userData) {
+    constructor(userData, tripsData) {
         this.name = userData.name
         this.type = userData.travelerType
         this.id = userData.id
+        this.userTrips = tripsData.filter(trip => trip.userID === this.id)
     }
     calculateSumCostOfYear(tripLog, destinationLog) {
         let rawCost = tripLog.reduce((acc, trip) => {
