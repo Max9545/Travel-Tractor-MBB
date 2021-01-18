@@ -14,6 +14,7 @@ const cardGrid = document.querySelector('.card-grid')
 const dateInput = document.querySelector('.date-input')
 const durationInput = document.querySelector('.duration-input')
 const travelersInput = document.querySelector('.travelers-input')
+const destinationsPullDown = document.querySelector('#destination-select')
 
 console.log('This is the JavaScript entry file - your code begins here.');
 
@@ -45,7 +46,7 @@ function displayAnnualCost() {
 
 function makeDestinations(desinationObj) {
     allDestinations = desinationObj.destinations
-
+    makeDestinationDropDown(allDestinations)
 }
 
 function makeTrips(fetchedData) {
@@ -76,4 +77,9 @@ function getRandomInt(max) {
 function postTrip() {
     const newUserTripObj = new Trip({ date: dateInput, duration: durationInput, travelers: travelersInput })
     apiCalls.postData(newUserTripObj)
+}
+
+function makeDestinationDropDown(destinationsData) {
+    console.log(destinationsData[0].destination)
+    destinationsData.forEach(destination => destinationsPullDown.insertAdjacentHTML('afterbegin', `<option value="${destination.destination}">${destination.destination}</option>`))
 }
