@@ -29,7 +29,13 @@ describe('Make a User Class', function() {
         console.log(testUserData);
         expect(user.id).to.equal(testUserData.id)
     })
-    it.only('should return an estimated cost for the year (plus agents 10%)', function() {
+    it.only('should see if the trip occured in the last year', function() {
+
+        expect(user.checkDate("2019/09/16")).to.equal(false)
+
+        expect(user.checkDate("2020/09/16")).to.equal(true)
+    })
+    it('should return an estimated cost for the year (plus agents 10%)', function() {
 
         let estimatedCost = user.calculateSumCostOfYear(tripsTestData, destinationsTestData)
 
