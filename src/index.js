@@ -27,38 +27,42 @@ let allTripsData, currentUser, allDestinations
 
 Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
     .then(values => {
-        makeUser(values[0])
-        makeTrips(values[1])
         makeDestinations(values[2])
+        makeTrips(values[1])
+        makeUser(values[0])
     }).catch('o no!')
 
+// window.addEventListener('load', showStuff)
 
-
-function showStuff(stuff) {
-
-    //console.log(stuff)
-}
+// function showStuff() {
+//     annualCost.innerHTML = currentUser.calculateSumCostOfYear(allTripsData, allDestinations)
+//         //console.log(stuff)
+// }
 
 function makeUser(userObj) {
     currentUser = new User(userObj.travelers[getRandomInt(userObj.travelers.length)])
-    console.log(currentUser)
+    console.log(allTripsData);
+    console.log(allDestinations);
+    annualCost.innerHTML = `You have spent ${currentUser.calculateSumCostOfYear(allTripsData, allDestinations)} ${currentUser.name}`
+        // showStuff()
+        // console.log(currentUser)
         //  annualCost.innerText = userArray[0]
 }
 
 function makeDestinations(desinationObj) {
-    allDestinations = desinationObj.desinations
+    allDestinations = desinationObj.destinations
 
 }
 
 function makeTrips(fetchedData) {
     allTripsData = fetchedData.trips
-    console.log(allTripsData)
+        // console.log(allTripsData)
 }
 
-console.log(allTripsData)
-    // function setData() {
-    //     travelers = apiCalls.loadData('http://localhost:3001/api/v1/travelers')
-    // }
+// console.log(allTripsData)
+// function setData() {
+//     travelers = apiCalls.loadData('http://localhost:3001/api/v1/travelers')
+// }
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
