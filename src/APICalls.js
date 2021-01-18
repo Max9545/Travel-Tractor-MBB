@@ -21,8 +21,7 @@ let apiCalls = {
     loadData(type) {
         return fetch(`http://localhost:3001/api/v1/${type}`)
             .then(response => response.json())
-            // .then(data => data.data)
-            // .then(data => )
+            .catch('Error in apiCalls')
     },
 
     // postData() {

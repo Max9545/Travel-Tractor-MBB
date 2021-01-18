@@ -10,19 +10,13 @@ import Trip from './trip.js'
 import User from './user.js'
 
 const annualCost = document.querySelector('.annual-cost')
-const destinationName = document.querySelector('.destination-name')
-const picOfDestination = document.querySelector('.pic-of-destination')
-const tripDate = document.querySelector('.date')
-const tripStatus = document.querySelector('.status')
 const cardGrid = document.querySelector('.card-grid')
 
 console.log('This is the JavaScript entry file - your code begins here.');
 // window.addEventListener('load', setData)
 // const fetchedTravelers = apiCalls.loadData('http://localhost:3001/api/v1/travelers')
 
-// const fetchedTravelers = apiCalls.getTravelers()
-// const fetchedTrips = apiCalls.getTrips()
-// const fetchedDestinations = apiCalls.getDestinations()
+
 const fetchedTravelers = apiCalls.loadData('travelers')
 const fetchedTrips = apiCalls.loadData('trips')
 const fetchedDestinations = apiCalls.loadData('destinations')
@@ -33,7 +27,7 @@ Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
         makeDestinations(values[2])
         makeTrips(values[1])
         makeUser(values[0])
-    }).catch('o no!')
+    }).catch('Error in Promise.all')
 
 
 function makeUser(userObj) {
