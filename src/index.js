@@ -14,7 +14,9 @@ const cardGrid = document.querySelector('.card-grid')
 const dateInput = document.querySelector('.date-input')
 const durationInput = document.querySelector('.duration-input')
 const travelersInput = document.querySelector('.travelers-input')
-const destinationsPullDown = document.querySelector('#destination-select')
+
+const destinationInput = document.querySelector('#destination-select')
+
 
 console.log('This is the JavaScript entry file - your code begins here.');
 
@@ -59,7 +61,7 @@ function displayTripCards(userObj) {
 
         const destinationObj = userObj.userDestinations.find(destination => destination.id === trip.destinationID)
 
-        cardGrid.innerHTML += `<article>
+        cardGrid.innerHTML += `<article class='card'>
         <p class='destination-name'>${destinationObj.destination}</p>
         <img id='pic-destination' src=${destinationObj.image} alt=${destinationObj.alt}>
         <div class='trip-info'>
@@ -75,11 +77,10 @@ function getRandomInt(max) {
 }
 
 function postTrip() {
-    const newUserTripObj = new Trip({ date: dateInput, duration: durationInput, travelers: travelersInput })
+    const newUserTripObj = new Trip({ date: dateInput, duration: durationInput, travelers: travelersInput, destination: destinationInput })
     apiCalls.postData(newUserTripObj)
 }
 
 function makeDestinationDropDown(destinationsData) {
-    console.log(destinationsData[0].destination)
-    destinationsData.forEach(destination => destinationsPullDown.insertAdjacentHTML('afterbegin', `<option value="${destination.destination}">${destination.destination}</option>`))
+    destinationsData.forEach(destination => destinationInput.insertAdjacentHTML('afterbegin', `<option value="${destination.destination}">${destination.destination}</option>`))
 }
