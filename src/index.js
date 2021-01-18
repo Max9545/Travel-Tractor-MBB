@@ -14,7 +14,7 @@ const destinationName = document.querySelector('.destination-name')
 const picOfDestination = document.querySelector('.pic-of-destination')
 const tripDate = document.querySelector('.date')
 const tripStatus = document.querySelector('.status')
-
+const cardGrid = document.querySelector('.card-grid')
 
 console.log('This is the JavaScript entry file - your code begins here.');
 // window.addEventListener('load', setData)
@@ -45,6 +45,7 @@ function makeUser(userObj) {
         // console.log(allDestinations);
     console.log(currentUser.userTrips);
     displayAnnualCost()
+    displayTripCards(currentUser.userTrips)
         // annualCost.innerHTML = `You have spent ${currentUser.calculateSumCostOfYear(allTripsData, allDestinations)} ${currentUser.name}`
         // showStuff()
         // console.log(currentUser)
@@ -63,6 +64,19 @@ function makeDestinations(desinationObj) {
 function makeTrips(fetchedData) {
     allTripsData = fetchedData.trips
         // console.log(allTripsData)
+}
+
+function displayTripCards(tripsToDisplay) {
+    tripsToDisplay.forEach(trip => {
+        cardGrid.innerHTML += `<article>
+        <p class='destination-name'></p>
+        <img id='pic-destination' src="https://images.unsplash.com/photo-1560089168-6516081f5bf1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80" alt="city with boats on the water during the day time">
+        <div class='trip-info'>
+            <p class='date'>${trip.date}</p>
+            <p class='status'>${trip.status}</p>
+        </div>
+    </article>`
+    })
 }
 
 // console.log(allTripsData)
