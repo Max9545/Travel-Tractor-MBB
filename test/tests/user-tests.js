@@ -14,31 +14,49 @@ let user, testUserData
 
 describe('Make a User Class', function() {
     beforeEach(() => {
+
         user = new User(travelersTestData[29])
-        testUserData = travelersTestData[0]
+
+        testUserData = travelersTestData[29]
     })
+
     it('should have a name', function() {
+
         console.log(testUserData);
+
         expect(user.name).to.equal(testUserData.name)
     })
+
     it('should have a type', function() {
+
         console.log(testUserData);
+
         expect(user.type).to.equal(testUserData.type)
     })
+
     it('should have a id', function() {
+
         console.log(testUserData);
+
         expect(user.id).to.equal(testUserData.id)
     })
-    it.only('should see if the trip occured in the last year', function() {
+
+    it('should see if the trip occured in the last year', function() {
 
         expect(user.checkDate("2019/09/16")).to.equal(false)
 
         expect(user.checkDate("2020/09/16")).to.equal(true)
     })
+
+    it('should calculate a trips flight cost', function() {
+
+        expect(user.calculateFlightCost(destinationsTestData[0], tripsTestData[0])).to.equal(800)
+    })
+
     it('should return an estimated cost for the year (plus agents 10%)', function() {
 
         let estimatedCost = user.calculateSumCostOfYear(tripsTestData, destinationsTestData)
 
-        expect(estimatedCost).to.equal(1155)
+        expect(estimatedCost).to.equal(13420)
     })
 })
