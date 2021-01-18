@@ -11,12 +11,14 @@ import User from './user.js'
 
 const annualCost = document.querySelector('.annual-cost')
 const cardGrid = document.querySelector('.card-grid')
-const dateInput = document.querySelector('.date-input')
-const durationInput = document.querySelector('.duration-input')
-const travelersInput = document.querySelector('.travelers-input')
+const dateInput = document.querySelector('#date-input')
+const durationInput = document.querySelector('#duration-input')
+const travelersInput = document.querySelector('#travelers-input')
+    // const destinationInput = document.querySelector('#destination-select')
+const destinationDropDown = document.querySelector('#destination-select')
+const bookButton = document.querySelector('.book-trip')
 
-const destinationInput = document.querySelector('#destination-select')
-
+bookButton.addEventListener('click', bookTrip)
 
 console.log('This is the JavaScript entry file - your code begins here.');
 
@@ -76,11 +78,12 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-function postTrip() {
-    const newUserTripObj = new Trip({ date: dateInput, duration: durationInput, travelers: travelersInput, destination: destinationInput })
-    apiCalls.postData(newUserTripObj)
+function bookTrip() {
+    const newUserTripObj = new Trip({ date: dateInput.value, duration: durationInput.value, travelers: travelersInput.value, destination: destinationDropDown.value })
+    console.log(newUserTripObj);
+    // apiCalls.postData(newUserTripObj)
 }
 
 function makeDestinationDropDown(destinationsData) {
-    destinationsData.forEach(destination => destinationInput.insertAdjacentHTML('afterbegin', `<option value="${destination.destination}">${destination.destination}</option>`))
+    destinationsData.forEach(destination => destinationDropDown.insertAdjacentHTML('afterbegin', `<option value="${destination.destination}">${destination.destination}</option>`))
 }
