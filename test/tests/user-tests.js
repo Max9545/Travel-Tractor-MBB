@@ -14,7 +14,7 @@ let user, testUserData
 
 describe('Make a User Class', function() {
     beforeEach(() => {
-        user = new User(travelersTestData[0])
+        user = new User(travelersTestData[29])
         testUserData = travelersTestData[0]
     })
     it('should have a name', function() {
