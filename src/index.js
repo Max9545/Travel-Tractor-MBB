@@ -46,8 +46,9 @@ function makeUser(userObj) {
     // console.log(allDestinations);
     // console.log(currentUser.userDestinations);
     displayAnnualCost()
-    displayTripCards(currentUser.userTrips)
     currentUser.getDestinations(allDestinations)
+    displayTripCards(currentUser)
+
     console.log(currentUser.userDestinations);
     // annualCost.innerHTML = `You have spent ${currentUser.calculateSumCostOfYear(allTripsData, allDestinations)} ${currentUser.name}`
     // showStuff()
@@ -56,7 +57,7 @@ function makeUser(userObj) {
 }
 
 function displayAnnualCost() {
-    annualCost.innerHTML = `You have spent ${currentUser.calculateSumCostOfYear(allTripsData, allDestinations)} ${currentUser.name}`
+    annualCost.innerHTML = `You have spent ${currentUser.calculateSumCostOfYear(allTripsData, allDestinations)}$ this year ${currentUser.name}`
 }
 
 function makeDestinations(desinationObj) {
@@ -69,11 +70,12 @@ function makeTrips(fetchedData) {
         // console.log(allTripsData)
 }
 
-function displayTripCards(tripsToDisplay) {
-    tripsToDisplay.forEach(trip => {
+function displayTripCards(userObj) {
+    userObj.userTrips.forEach(trip => {
+        const destinationObj = userObj.userDestinations.find(destination => destination.id === trip.destinationID)
         cardGrid.innerHTML += `<article>
-        <p class='destination-name'></p>
-        <img id='pic-destination' src="https://images.unsplash.com/photo-1560089168-6516081f5bf1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80" alt="city with boats on the water during the day time">
+        <p class='destination-name'>${destinationObj.destination}</p>
+        <img id='pic-destination' src=${destinationObj.image} alt=${destinationObj.alt}>
         <div class='trip-info'>
             <p class='date'>${trip.date}</p>
             <p class='status'>${trip.status}</p>
