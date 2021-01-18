@@ -29,7 +29,7 @@ Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
     .then(values => {
         makeUser(values[0])
         makeTrips(values[1])
-        showStuff(values[2])
+        makeDestinations(values[2])
     }).catch('o no!')
 
 
@@ -39,16 +39,22 @@ function showStuff(stuff) {
     //console.log(stuff)
 }
 
-function makeUser(userArray) {
-    currentUser = new User(userArray.travelers[getRandomInt(userArray.travelers.length)])
+function makeUser(userObj) {
+    currentUser = new User(userObj.travelers[getRandomInt(userObj.travelers.length)])
     console.log(currentUser)
         //  annualCost.innerText = userArray[0]
+}
+
+function makeDestinations(desinationObj) {
+    allDestinations = desinationObj.desinations
+
 }
 
 function makeTrips(fetchedData) {
     allTripsData = fetchedData.trips
     console.log(allTripsData)
 }
+
 console.log(allTripsData)
     // function setData() {
     //     travelers = apiCalls.loadData('http://localhost:3001/api/v1/travelers')
