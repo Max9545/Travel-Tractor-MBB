@@ -7,6 +7,7 @@ import apiCalls from './APICalls.js';
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png';
 import Trip from './trip.js'
+import User from './user.js'
 
 const annualCost = document.querySelector('.annual-cost')
 const destinationName = document.querySelector('.destination-name')
@@ -26,7 +27,7 @@ let allTripsData, currentUser, allDestinations
 
 Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
     .then(values => {
-        showStuff(values[0])
+        makeUser(values[0])
         makeTrips(values[1])
         showStuff(values[2])
     }).catch('o no!')
@@ -38,11 +39,20 @@ function showStuff(stuff) {
     //console.log(stuff)
 }
 
+function makeUser(userArray) {
+    currentUser = new User(userArray.travelers[getRandomInt(userArray.travelers.length)])
+    console.log(currentUser)
+        //  annualCost.innerText = userArray[0]
+}
+
 function makeTrips(fetchedData) {
-    allTripsData = fetchedData
+    allTripsData = fetchedData.trips
     console.log(allTripsData)
 }
 console.log(allTripsData)
     // function setData() {
     //     travelers = apiCalls.loadData('http://localhost:3001/api/v1/travelers')
     // }
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}

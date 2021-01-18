@@ -1,7 +1,7 @@
 class User {
     constructor(userData) {
         this.name = userData.name
-        this.type = userData.type
+        this.type = userData.travelerType
         this.id = userData.id
     }
     calculateSumCostOfYear(tripLog, destinationLog) {
