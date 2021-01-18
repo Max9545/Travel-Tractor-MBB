@@ -1,9 +1,10 @@
 class User {
-    constructor(userData, tripsData) {
+    constructor(userData, tripsData, destinatonData) {
         this.name = userData.name
         this.type = userData.travelerType
         this.id = userData.id
         this.userTrips = tripsData.filter(trip => trip.userID === this.id)
+        this.userDestinations
     }
     calculateSumCostOfYear(tripLog, destinationLog) {
         let rawCost = tripLog.reduce((acc, trip) => {
@@ -26,6 +27,18 @@ class User {
     }
     calculateFlightCost(destination, trip) {
         return (destination.estimatedFlightCostPerPerson * 2) * trip.travelers
+    }
+    getDestinations(destinationData) {
+        this.userDestinations = destinationData.reduce((acc, destination) => {
+            this.userTrips.forEach(trip => {
+                if (trip.destinationID === destination.id) {
+                    acc.push(destination)
+                    return acc
+                }
+                return acc
+            })
+            return acc
+        }, [])
     }
 }
 module.exports = User
