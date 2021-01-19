@@ -9,8 +9,8 @@ import './images/turing-logo.png';
 import Trip from './trip.js'
 import User from './user.js'
 
-
-const userSignInBox = document.querySelector('.user-sign-in-box')
+// const overLay = document.querySelector('#overlay')
+// const userSignInBox = document.querySelector('#user-sign-in-box')
 const signInButton = document.querySelector('.sign-in-button')
 const annualCost = document.querySelector('.annual-cost')
 const cardGrid = document.querySelector('.card-grid')
@@ -27,20 +27,22 @@ bookButton.addEventListener('click', bookTrip)
 
 console.log('This is the JavaScript entry file - your code begins here.');
 
-window.addEventListener('load', getIntialData)
+// window.addEventListener('load', getIntialData)
 
 let allTripsData, currentUser, allDestinations
 
 
 
 function attemptSignIn() {
-    const passwordAttempt = document.querySelector('.username-input')
-    const userNameAttempt = document.querySelector('.password-input')
+    const passwordAttempt = document.querySelector('#password-input').value
+    const userNameAttempt = document.querySelector('#username-input').value
     const userName = userNameAttempt.slice(0, 8)
     const userID = parseInt(userNameAttempt.slice(8))
-    if (userName = 'traveler' && userID < 51 && passwordAttempt === 'travel2020') {
+    if (userName === 'traveler' && passwordAttempt === 'travel2020') {
         getIntialData(userID)
-        userSignInBox.classList.add('hidden')
+            // userSignInBox.classList.add('hidden')
+    } else {
+        console.log('boopy!')
     }
 
 }
@@ -51,14 +53,22 @@ function getIntialData(userID) {
     const fetchedDestinations = apiCalls.loadData('destinations')
     Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
         .then(values => {
-            makeDestinations(values[2])
-            makeTrips(values[1])
-            makeUser(values[0])
+            if (values[0].id) {
+                hideHTMLElement('user-sign-in-box'
+                    'user-sign-in-box')
+                hideHTMLElement('overlay')
+                makeDestinations(values[2])
+                makeTrips(values[1])
+                makeUser(values[0])
+            } else {
+                displayErrorMessage()
+            }
+
         }).catch('Error in getIntialData')
 }
 
 function makeUser(userObj) {
-    currentUser = new User(userObj.travelers[0], allTripsData)
+    currentUser = new User(userObj, allTripsData)
     displayAnnualCost()
     currentUser.getDestinations(allDestinations)
         //Steve help here- get this to work on instantiation
@@ -80,6 +90,8 @@ function makeTrips(fetchedData) {
 }
 
 function displayTripCards(userObj) {
+
+    cardGrid.innerHTML = ''
     userObj.userTrips.forEach(trip => {
 
         const destinationObj = userObj.userDestinations.find(destination => destination.id === trip.destinationID)
@@ -144,4 +156,17 @@ function formatDate(date) {
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function displayErrorMessage() {
+    console.log('life = pain');
+}
+
+function hideHTMLElement(element) {
+    const elementToHide = document.getElementById(element);
+    // elementToHide.classList.add('.hidden')
+    if (!elementToHide.classList.value.includes('hidden')) {
+        elementToHide.classList.add('.hidden')
+    }
+
 }
