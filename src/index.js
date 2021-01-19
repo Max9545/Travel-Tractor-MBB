@@ -9,6 +9,8 @@ import './images/turing-logo.png';
 import Trip from './trip.js'
 import User from './user.js'
 
+const userSignInBox = document.querySelector('.user-sign-in-box')
+const signInButton = document.querySelector('.sign-in-button')
 const annualCost = document.querySelector('.annual-cost')
 const cardGrid = document.querySelector('.card-grid')
 const dateInput = document.querySelector('#date-input')
@@ -19,16 +21,21 @@ const destinationDropDown = document.querySelector('#destination-select-drop-dow
 const bookButton = document.querySelector('.book-trip')
 const tripCostDisplay = document.querySelector('.trip-cost')
 
+signInButton.addEventListener('click', attemptSignIn)
 bookButton.addEventListener('click', bookTrip)
 
 console.log('This is the JavaScript entry file - your code begins here.');
 
 window.addEventListener('load', getIntialData)
 
-// const fetchedTravelers = apiCalls.loadData('travelers')
-// const fetchedTrips = apiCalls.loadData('trips')
-// const fetchedDestinations = apiCalls.loadData('destinations')
 let allTripsData, currentUser, allDestinations
+
+
+
+function attemptSignIn() {
+    console.log('attempsignin')
+    userSignInBox.classList.add('hidden')
+}
 
 function getIntialData() {
     const fetchedTravelers = apiCalls.loadData('travelers')
