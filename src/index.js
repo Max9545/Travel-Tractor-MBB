@@ -10,70 +10,66 @@ import Trip from './trip.js'
 import User from './user.js'
 
 const annualCost = document.querySelector('.annual-cost')
-const destinationName = document.querySelector('.destination-name')
-const picOfDestination = document.querySelector('.pic-of-destination')
-const tripDate = document.querySelector('.date')
-const tripStatus = document.querySelector('.status')
 const cardGrid = document.querySelector('.card-grid')
+const dateInput = document.querySelector('#date-input')
+const durationInput = document.querySelector('#duration-input')
+const travelersInput = document.querySelector('#travelers-input')
+    //const destinationInput = document.querySelector('.destination-select')
+const destinationDropDown = document.querySelector('#destination-select-drop-down')
+const bookButton = document.querySelector('.book-trip')
+const tripCostDisplay = document.querySelector('.trip-cost')
+
+bookButton.addEventListener('click', bookTrip)
 
 console.log('This is the JavaScript entry file - your code begins here.');
-// window.addEventListener('load', setData)
-// const fetchedTravelers = apiCalls.loadData('http://localhost:3001/api/v1/travelers')
 
-const fetchedTravelers = apiCalls.getTravelers()
-const fetchedTrips = apiCalls.getTrips()
-const fetchedDestinations = apiCalls.getDestinations()
+window.addEventListener('load', getIntialData)
+
+// const fetchedTravelers = apiCalls.loadData('travelers')
+// const fetchedTrips = apiCalls.loadData('trips')
+// const fetchedDestinations = apiCalls.loadData('destinations')
 let allTripsData, currentUser, allDestinations
 
-Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
-    .then(values => {
-        makeDestinations(values[2])
-        makeTrips(values[1])
-        makeUser(values[0])
-    }).catch('o no!')
-
-// window.addEventListener('load', showStuff)
-
-// function showStuff() {
-//     annualCost.innerHTML = currentUser.calculateSumCostOfYear(allTripsData, allDestinations)
-//         //console.log(stuff)
-// }
+function getIntialData() {
+    const fetchedTravelers = apiCalls.loadData('travelers')
+    const fetchedTrips = apiCalls.loadData('trips')
+    const fetchedDestinations = apiCalls.loadData('destinations')
+    Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
+        .then(values => {
+            makeDestinations(values[2])
+            makeTrips(values[1])
+            makeUser(values[0])
+        }).catch('Error in getIntialData')
+}
 
 function makeUser(userObj) {
-    currentUser = new User(userObj.travelers[getRandomInt(userObj.travelers.length)], allTripsData)
-
-    // console.log(allTripsData);
-    // console.log(allDestinations);
-    // console.log(currentUser.userDestinations);
+    currentUser = new User(userObj.travelers[0], allTripsData)
     displayAnnualCost()
     currentUser.getDestinations(allDestinations)
+        //Steve help here- get this to work on instantiation
     displayTripCards(currentUser)
-
-    console.log(currentUser.userDestinations);
-    // annualCost.innerHTML = `You have spent ${currentUser.calculateSumCostOfYear(allTripsData, allDestinations)} ${currentUser.name}`
-    // showStuff()
-    // console.log(currentUser)
-    //  annualCost.innerText = userArray[0]
 }
 
 function displayAnnualCost() {
-    annualCost.innerHTML = `You have spent ${currentUser.calculateSumCostOfYear(allTripsData, allDestinations)}$ this year ${currentUser.name}`
+    annualCost.innerHTML = `You have spent ${numberWithCommas(currentUser.calculateSumCostOfYear(allTripsData, allDestinations))}$ this year ${currentUser.name}`
 }
 
 function makeDestinations(desinationObj) {
     allDestinations = desinationObj.destinations
-
+    makeDestinationDropDown(allDestinations)
 }
 
 function makeTrips(fetchedData) {
     allTripsData = fetchedData.trips
-        // console.log(allTripsData)
+        // use Trip class?
 }
 
 function displayTripCards(userObj) {
     userObj.userTrips.forEach(trip => {
+
         const destinationObj = userObj.userDestinations.find(destination => destination.id === trip.destinationID)
-        cardGrid.innerHTML += `<article>
+
+        cardGrid.innerHTML += `<article class='card'>
         <p class='destination-name'>${destinationObj.destination}</p>
         <img id='pic-destination' src=${destinationObj.image} alt=${destinationObj.alt}>
         <div class='trip-info'>
@@ -84,10 +80,52 @@ function displayTripCards(userObj) {
     })
 }
 
-// console.log(allTripsData)
-// function setData() {
-//     travelers = apiCalls.loadData('http://localhost:3001/api/v1/travelers')
+// function getRandomInt(max) {
+//     return Math.floor(Math.random() * Math.floor(max));
 // }
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
+
+function bookTrip() {
+    const newUserTripObj = new Trip({
+        id: makeTripID(),
+        userID: currentUser.id,
+        destinationID: getDestinationID(destinationDropDown.value),
+        travelers: travelersInput.value,
+        date: formatDate(dateInput.value),
+        duration: durationInput.value,
+        status: 'pending',
+        suggestedActivities: []
+    })
+    const tripCost = newUserTripObj.calculateTripCost(allDestinations)
+        // console.log(tripCost)
+
+    tripCostDisplay.innerHTML = `This trip costs ${tripCost}$`
+
+    apiCalls.postData(newUserTripObj)
+        .then(cardGrid.innerHTML = '')
+        .then(getIntialData())
+
+
+    // makeTrips(apiCalls.loadData('trips'))
+}
+
+function makeDestinationDropDown(destinationsData) {
+    destinationsData.forEach(destination => destinationDropDown.insertAdjacentHTML('afterbegin', `<option id='${destination.destinationID} class='destination-select''value="${destination.destination}">${destination.destination}</option>`))
+}
+
+function getDestinationID(nameOfPlace) {
+    const trip = allDestinations.find(destination => destination.destination === nameOfPlace)
+    return trip.id
+}
+
+function makeTripID() {
+    return allTripsData.sort((tripA, tripB) => tripB.id - tripA.id)[0].id + 1
+}
+
+function formatDate(date) {
+    const dateInfo = date.split('-');
+    return dateInfo.join('/');
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

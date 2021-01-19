@@ -1,51 +1,22 @@
-// const users = fetch('http://localhost:3001/api/v1/getTrips() {
-// fetch('http://localhost:3001/api/v1/destinations')
-//     .then(response => response.json())
-
-// }
-// ')
-//     .then(response => response.json())
-//     .then(data => console.log(data))
-
-
-// const trips = fetch('http://localhost:3001/api/v1/trips')
-//     .then(response => response.json())
-//     .then(data => console.log(data))
-
-// const destinations = fetch('http://localhost:3001/api/v1/destinations')
-//     .then(response => response.json())
-//     .then(data => console.log(data))
-
-
 let apiCalls = {
-    loadData(url) {
-        return fetch(url)
+    loadData(type) {
+        return fetch(`http://localhost:3001/api/v1/${type}`)
             .then(response => response.json())
-            // .then(data => data.data)
-            // .then(data => )
+            .catch('Error in apiCalls')
     },
-    getTrips() {
-        return fetch('http://localhost:3001/api/v1/trips')
-            .then(response => response.json())
 
-    },
-    getTravelers() {
-        return fetch('http://localhost:3001/api/v1/travelers')
+    postData(objToPost) {
+        return fetch(`http://localhost:3001/api/v1/trips`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(objToPost)
+            })
             .then(response => response.json())
-
-    },
-    getDestinations() {
-        return fetch('http://localhost:3001/api/v1/destinations')
-            .then(response => response.json())
-
+            // .catch(error => console.log(error))
     }
-    // postData() {
 
-    // }
-    // console.log('sdfhsdofhd')
-    //     fetch('http://localhost:3001/api/v1/travelers')
-    //     .then(response => response.json())
-    //     .then(data => console.log(data))
-    // }
 }
+
 export default apiCalls
