@@ -111,6 +111,7 @@ function bookTrip() {
     if (!destinationDropDown.value || !travelersInput.value || !dateInput.value || !durationInput.value) {
         errorSpace.innerText = `You need to enter all Fields!`
     } else {
+
         const newUserTripObj = new Trip({
             id: makeTripID(),
             userID: currentUser.id,
@@ -128,7 +129,7 @@ function bookTrip() {
 
         apiCalls.postData(newUserTripObj)
             .then(cardGrid.innerHTML = '')
-            .then(getIntialData())
+            .then(getIntialData(currentUser.id))
     }
 
 
