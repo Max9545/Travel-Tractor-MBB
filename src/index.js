@@ -8,9 +8,9 @@ import apiCalls from './APICalls.js';
 import './images/turing-logo.png';
 import Trip from './trip.js'
 import User from './user.js'
-
-// const overLay = document.querySelector('#overlay')
-// const userSignInBox = document.querySelector('#user-sign-in-box')
+const errorSpace = document.querySelector('.empty-fields-error-message')
+    // const overLay = document.querySelector('#overlay')
+    // const userSignInBox = document.querySelector('#user-sign-in-box')
 const signInButton = document.querySelector('.sign-in-button')
 const annualCost = document.querySelector('.annual-cost')
 const cardGrid = document.querySelector('.card-grid')
@@ -80,6 +80,7 @@ function displayAnnualCost() {
 
 function makeDestinations(desinationObj) {
     allDestinations = desinationObj.destinations
+
     makeDestinationDropDown(allDestinations)
 }
 
@@ -106,37 +107,38 @@ function displayTripCards(userObj) {
     })
 }
 
-// function getRandomInt(max) {
-//     return Math.floor(Math.random() * Math.floor(max));
-// }
-
 function bookTrip() {
-    const newUserTripObj = new Trip({
-        id: makeTripID(),
-        userID: currentUser.id,
-        destinationID: getDestinationID(destinationDropDown.value),
-        travelers: travelersInput.value,
-        date: formatDate(dateInput.value),
-        duration: durationInput.value,
-        status: 'pending',
-        suggestedActivities: []
-    })
-    const tripCost = newUserTripObj.calculateTripCost(allDestinations)
-        // console.log(tripCost)
+    if (!destinationDropDown.value || !travelersInput.value || !dateInput.value || !durationInput.value) {
+        errorSpace.innerText = `You need to enter all Fields!`
+    } else {
+        const newUserTripObj = new Trip({
+            id: makeTripID(),
+            userID: currentUser.id,
+            destinationID: getDestinationID(destinationDropDown.value),
+            travelers: travelersInput.value,
+            date: formatDate(dateInput.value),
+            duration: durationInput.value,
+            status: 'pending',
+            suggestedActivities: []
+        })
+        const tripCost = newUserTripObj.calculateTripCost(allDestinations)
+            // console.log(tripCost)
 
-    tripCostDisplay.innerHTML = `This trip costs ${tripCost}$`
+        tripCostDisplay.innerHTML = `This trip costs ${tripCost}$`
 
-    apiCalls.postData(newUserTripObj)
-        .then(cardGrid.innerHTML = '')
-        .then(getIntialData())
+        apiCalls.postData(newUserTripObj)
+            .then(cardGrid.innerHTML = '')
+            .then(getIntialData())
+    }
+
 
 
     // makeTrips(apiCalls.loadData('trips'))
 }
 
 function makeDestinationDropDown(destinationsData) {
-    console.log(destinationDropDown)
-    destinationsData.forEach(destination => destinationDropDown.insertAdjacentHTML('afterbegin', `<option id='${destination.destinationID} class='destination-select''value="${destination.destination}">${destination.destination}</option>`))
+    console.log(destinationsData)
+    destinationsData.forEach(destination => destinationDropDown.insertAdjacentHTML('afterbegin', `<option id = '${destination.destinationID} class='destination-select value = "${destination.destination}">${destination.destination}</option>`))
 }
 
 function getDestinationID(nameOfPlace) {
