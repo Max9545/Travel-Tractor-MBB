@@ -79,29 +79,31 @@ function getRandomInt(max) {
 }
 
 function bookTrip() {
-    // const newUserTripObj = new Trip({
-    //         id: makeTripID(),
-    //         userID: currentUser.id,
-    //         destinationID: getTripID(destinationDropDown.value),
-    //         travelers: travelersInput.value,
-    //         date: dateInput.value,
-    //         duration: durationInput.value,
-    //         status: 'pending',
-    //         suggestedActivities: []
-    //     })
-    const newUserTripObj = {
+    const newUserTripObj = new Trip({
             id: makeTripID(),
             userID: currentUser.id,
             destinationID: getTripID(destinationDropDown.value),
             travelers: travelersInput.value,
-            date: dateInput.value,
+            date: formatDate(dateInput.value),
             duration: durationInput.value,
             status: 'pending',
             suggestedActivities: []
-        }
+        })
+        // const newUserTripObj = {
+        //         id: makeTripID(),
+        //         userID: currentUser.id,
+        //         destinationID: getTripID(destinationDropDown.value),
+        //         travelers: travelersInput.value,
+        //         date: dateInput.value,
+        //         duration: durationInput.value,
+        //         status: 'pending',
+        //         suggestedActivities: []
+        //     }
         // console.log(destinationDropDown);
         // console.log(newUserTripObj);
     apiCalls.postData(newUserTripObj)
+
+    // makeTrips(apiCalls.loadData('trips'))
 }
 
 function makeDestinationDropDown(destinationsData) {
@@ -116,4 +118,9 @@ function getTripID(nameOfPlace) {
 
 function makeTripID() {
     return allTripsData.length + 1
+}
+
+function formatDate(date) {
+    const dateInfo = date.split('-');
+    return dateInfo.join('/');
 }
