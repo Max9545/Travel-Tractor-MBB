@@ -9,5 +9,18 @@ class Trip {
         this.status = tripInfo.status
         this.suggestedActivities = tripInfo.suggestedActivities
     }
+    calculateTripCost(destinationData) {
+
+        const destinationObj = destinationData.find(destination => destination.id === this.destinationID)
+
+        const flightCost = (destinationObj.estimatedFlightCostPerPerson * 2) * this.travelers
+
+        const hotelCost = this.duration * destinationObj.estimatedLodgingCostPerDay
+
+        console.log(destinationObj)
+
+
+        return hotelCost + flightCost
+    }
 }
 module.exports = Trip

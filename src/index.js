@@ -17,6 +17,7 @@ const travelersInput = document.querySelector('#travelers-input')
     //const destinationInput = document.querySelector('.destination-select')
 const destinationDropDown = document.querySelector('#destination-select-drop-down')
 const bookButton = document.querySelector('.book-trip')
+const tripCostDisplay = document.querySelector('.trip-cost')
 
 bookButton.addEventListener('click', bookTrip)
 
@@ -30,6 +31,9 @@ const fetchedDestinations = apiCalls.loadData('destinations')
 let allTripsData, currentUser, allDestinations
 
 function getIntialData() {
+    const fetchedTravelers = apiCalls.loadData('travelers')
+    const fetchedTrips = apiCalls.loadData('trips')
+    const fetchedDestinations = apiCalls.loadData('destinations')
     Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
         .then(values => {
             makeDestinations(values[2])
@@ -37,14 +41,6 @@ function getIntialData() {
             makeUser(values[0])
         }).catch('Error in getIntialData')
 }
-
-function getTripAndDestinationData() {
-    Promise.all([fetchedTrips])
-        .then(values => {
-            makeTrips(values[0])
-        }).catch('Error in getTripAndDestinationData')
-}
-
 
 function makeUser(userObj) {
     currentUser = new User(userObj.travelers[getRandomInt(userObj.travelers.length)], allTripsData)
@@ -99,11 +95,14 @@ function bookTrip() {
         status: 'pending',
         suggestedActivities: []
     })
+    const tripCost = newUserTripObj.calculateTripCost(allDestinations)
+        // console.log(tripCost)
 
+    tripCostDisplay.innerHTML = `This trip costs ${tripCost}$`
     apiCalls.postData(newUserTripObj)
-        .then(getTripAndDestinationData())
 
-    // makeTrips(apiCalls.loadData('trips'))
+    getIntialData()
+        // makeTrips(apiCalls.loadData('trips'))
 }
 
 function makeDestinationDropDown(destinationsData) {
