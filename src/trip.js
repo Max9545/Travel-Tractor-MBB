@@ -17,8 +17,6 @@ class Trip {
 
         const hotelCost = this.duration * destinationObj.estimatedLodgingCostPerDay
 
-        console.log(destinationObj)
-
 
         return Math.round((hotelCost + flightCost) * 1.1)
     }

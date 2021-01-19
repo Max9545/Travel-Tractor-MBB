@@ -6,7 +6,7 @@ let apiCalls = {
     },
 
     postData(objToPost) {
-        fetch(`http://localhost:3001/api/v1/trips`, {
+        return fetch(`http://localhost:3001/api/v1/trips`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -14,8 +14,7 @@ let apiCalls = {
                 body: JSON.stringify(objToPost)
             })
             .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.log(error))
+            // .catch(error => console.log(error))
     }
 
 }

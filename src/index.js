@@ -25,9 +25,9 @@ console.log('This is the JavaScript entry file - your code begins here.');
 
 window.addEventListener('load', getIntialData)
 
-const fetchedTravelers = apiCalls.loadData('travelers')
-const fetchedTrips = apiCalls.loadData('trips')
-const fetchedDestinations = apiCalls.loadData('destinations')
+// const fetchedTravelers = apiCalls.loadData('travelers')
+// const fetchedTrips = apiCalls.loadData('trips')
+// const fetchedDestinations = apiCalls.loadData('destinations')
 let allTripsData, currentUser, allDestinations
 
 function getIntialData() {
@@ -43,7 +43,7 @@ function getIntialData() {
 }
 
 function makeUser(userObj) {
-    currentUser = new User(userObj.travelers[getRandomInt(userObj.travelers.length)], allTripsData)
+    currentUser = new User(userObj.travelers[0], allTripsData)
     displayAnnualCost()
     currentUser.getDestinations(allDestinations)
         //Steve help here- get this to work on instantiation
@@ -80,9 +80,9 @@ function displayTripCards(userObj) {
     })
 }
 
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
+// function getRandomInt(max) {
+//     return Math.floor(Math.random() * Math.floor(max));
+// }
 
 function bookTrip() {
     const newUserTripObj = new Trip({
@@ -99,10 +99,13 @@ function bookTrip() {
         // console.log(tripCost)
 
     tripCostDisplay.innerHTML = `This trip costs ${tripCost}$`
-    apiCalls.postData(newUserTripObj)
 
-    getIntialData()
-        // makeTrips(apiCalls.loadData('trips'))
+    apiCalls.postData(newUserTripObj)
+        .then(cardGrid.innerHTML = '')
+        .then(getIntialData())
+
+
+    // makeTrips(apiCalls.loadData('trips'))
 }
 
 function makeDestinationDropDown(destinationsData) {
