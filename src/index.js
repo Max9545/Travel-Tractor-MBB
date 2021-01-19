@@ -9,6 +9,7 @@ import './images/turing-logo.png';
 import Trip from './trip.js'
 import User from './user.js'
 
+
 const userSignInBox = document.querySelector('.user-sign-in-box')
 const signInButton = document.querySelector('.sign-in-button')
 const annualCost = document.querySelector('.annual-cost')
@@ -33,12 +34,19 @@ let allTripsData, currentUser, allDestinations
 
 
 function attemptSignIn() {
-    console.log('attempsignin')
-    userSignInBox.classList.add('hidden')
+    const passwordAttempt = document.querySelector('.username-input')
+    const userNameAttempt = document.querySelector('.password-input')
+    const userName = userNameAttempt.slice(0, 8)
+    const userID = parseInt(userNameAttempt.slice(8))
+    if (userName = 'traveler' && userID < 51 && passwordAttempt === 'travel2020') {
+        getIntialData(userID)
+        userSignInBox.classList.add('hidden')
+    }
+
 }
 
-function getIntialData() {
-    const fetchedTravelers = apiCalls.loadData('travelers')
+function getIntialData(userID) {
+    const fetchedTravelers = apiCalls.loadData(`travelers/${userID}`)
     const fetchedTrips = apiCalls.loadData('trips')
     const fetchedDestinations = apiCalls.loadData('destinations')
     Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
