@@ -54,8 +54,7 @@ function getIntialData(userID) {
     Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
         .then(values => {
             if (values[0].id) {
-                hideHTMLElement('user-sign-in-box'
-                    'user-sign-in-box')
+                hideHTMLElement('user-sign-in-box')
                 hideHTMLElement('overlay')
                 makeDestinations(values[2])
                 makeTrips(values[1])
@@ -163,10 +162,12 @@ function displayErrorMessage() {
 }
 
 function hideHTMLElement(element) {
+
     const elementToHide = document.getElementById(element);
-    // elementToHide.classList.add('.hidden')
-    if (!elementToHide.classList.value.includes('hidden')) {
-        elementToHide.classList.add('.hidden')
-    }
+
+    elementToHide.classList.add('hidden')
+        // if (!elementToHide.classList.value.includes('hidden')) {
+        //     elementToHide.classList.add('.hidden')
+        // }
 
 }
