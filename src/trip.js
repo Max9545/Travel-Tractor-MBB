@@ -20,7 +20,7 @@ class Trip {
         console.log(destinationObj)
 
 
-        return hotelCost + flightCost
+        return Math.round((hotelCost + flightCost) * 1.1)
     }
 }
 module.exports = Trip
