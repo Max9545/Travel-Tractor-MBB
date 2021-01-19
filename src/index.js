@@ -22,18 +22,28 @@ bookButton.addEventListener('click', bookTrip)
 
 console.log('This is the JavaScript entry file - your code begins here.');
 
+window.addEventListener('load', getIntialData)
 
 const fetchedTravelers = apiCalls.loadData('travelers')
 const fetchedTrips = apiCalls.loadData('trips')
 const fetchedDestinations = apiCalls.loadData('destinations')
 let allTripsData, currentUser, allDestinations
 
-Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
-    .then(values => {
-        makeDestinations(values[2])
-        makeTrips(values[1])
-        makeUser(values[0])
-    }).catch('Error in Promise.all')
+function getIntialData() {
+    Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
+        .then(values => {
+            makeDestinations(values[2])
+            makeTrips(values[1])
+            makeUser(values[0])
+        }).catch('Error in getIntialData')
+}
+
+function getTripAndDestinationData() {
+    Promise.all([fetchedTrips])
+        .then(values => {
+            makeTrips(values[0])
+        }).catch('Error in getTripAndDestinationData')
+}
 
 
 function makeUser(userObj) {
@@ -45,7 +55,7 @@ function makeUser(userObj) {
 }
 
 function displayAnnualCost() {
-    annualCost.innerHTML = `You have spent ${currentUser.calculateSumCostOfYear(allTripsData, allDestinations)}$ this year ${currentUser.name}`
+    annualCost.innerHTML = `You have spent ${numberWithCommas(currentUser.calculateSumCostOfYear(allTripsData, allDestinations))}$ this year ${currentUser.name}`
 }
 
 function makeDestinations(desinationObj) {
@@ -80,28 +90,18 @@ function getRandomInt(max) {
 
 function bookTrip() {
     const newUserTripObj = new Trip({
-            id: makeTripID(),
-            userID: currentUser.id,
-            destinationID: getTripID(destinationDropDown.value),
-            travelers: travelersInput.value,
-            date: formatDate(dateInput.value),
-            duration: durationInput.value,
-            status: 'pending',
-            suggestedActivities: []
-        })
-        // const newUserTripObj = {
-        //         id: makeTripID(),
-        //         userID: currentUser.id,
-        //         destinationID: getTripID(destinationDropDown.value),
-        //         travelers: travelersInput.value,
-        //         date: dateInput.value,
-        //         duration: durationInput.value,
-        //         status: 'pending',
-        //         suggestedActivities: []
-        //     }
-        // console.log(destinationDropDown);
-        // console.log(newUserTripObj);
+        id: makeTripID(),
+        userID: currentUser.id,
+        destinationID: getDestinationID(destinationDropDown.value),
+        travelers: travelersInput.value,
+        date: formatDate(dateInput.value),
+        duration: durationInput.value,
+        status: 'pending',
+        suggestedActivities: []
+    })
+
     apiCalls.postData(newUserTripObj)
+        .then(getTripAndDestinationData())
 
     // makeTrips(apiCalls.loadData('trips'))
 }
@@ -110,17 +110,20 @@ function makeDestinationDropDown(destinationsData) {
     destinationsData.forEach(destination => destinationDropDown.insertAdjacentHTML('afterbegin', `<option id='${destination.destinationID} class='destination-select''value="${destination.destination}">${destination.destination}</option>`))
 }
 
-function getTripID(nameOfPlace) {
+function getDestinationID(nameOfPlace) {
     const trip = allDestinations.find(destination => destination.destination === nameOfPlace)
-    console.log(allDestinations);
     return trip.id
 }
 
 function makeTripID() {
-    return allTripsData.length + 1
+    return allTripsData.sort((tripA, tripB) => tripB.id - tripA.id)[0].id + 1
 }
 
 function formatDate(date) {
     const dateInfo = date.split('-');
     return dateInfo.join('/');
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
