@@ -1,51 +1,32 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/base.scss';
 import apiCalls from './APICalls.js';
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png';
 import Trip from './trip.js'
 import User from './user.js'
-const errorSpace = document.querySelector('.empty-fields-error-message')
-    // const overLay = document.querySelector('#overlay')
-    // const userSignInBox = document.querySelector('#user-sign-in-box')
+import { sign } from 'crypto';
+
+
 const signInButton = document.querySelector('.sign-in-button')
-const annualCost = document.querySelector('.annual-cost')
-const cardGrid = document.querySelector('.card-grid')
-const dateInput = document.querySelector('#date-input')
-const durationInput = document.querySelector('#duration-input')
-const travelersInput = document.querySelector('#travelers-input')
-const destinationInput = document.querySelector('.destination-select')
 const destinationDropDown = document.querySelector('#destination-select-drop-down')
 const bookButton = document.querySelector('.book-trip')
-const tripCostDisplay = document.querySelector('.trip-cost')
 
 signInButton.addEventListener('click', attemptSignIn)
 bookButton.addEventListener('click', bookTrip)
 
-console.log('This is the JavaScript entry file - your code begins here.');
-
-// window.addEventListener('load', getIntialData)
-
 let allTripsData, currentUser, allDestinations
-
-
 
 function attemptSignIn() {
     const passwordAttempt = document.querySelector('#password-input').value
     const userNameAttempt = document.querySelector('#username-input').value
     const nameCutOff = 8
+    const userIDCutOff = userNameAttempt.slice(8)
     const userName = userNameAttempt.slice(0, nameCutOff)
-    const userID = parseInt(userNameAttempt.slice(8))
+    const userID = parseInt(userIDCutOff)
     if (userName === 'traveler' && passwordAttempt === 'travel2020') {
         getIntialData(userID)
-            // userSignInBox.classList.add('hidden')
     } else {
-        console.log('boopy!')
+        signInButton.insertAdjacentHTML('afterbegin', `<p>Wrong Password Gets You Less Space!!</p>`)
     }
-
 }
 
 function getIntialData(userID) {
@@ -71,7 +52,7 @@ function makeUser(userObj) {
 }
 
 function displayAnnualCost() {
-    annualCost.innerHTML = `You have spent ${numberWithCommas(currentUser.calculateSumCostOfYear(allTripsData, allDestinations))}$this year ${currentUser.name}`
+    document.querySelector('.annual-cost').innerHTML = `You have spent ${numberWithCommas(currentUser.calculateSumCostOfYear(allTripsData, allDestinations))}$this year ${currentUser.name}`
 }
 
 function makeDestinations(desinationObj) {
@@ -86,7 +67,7 @@ function makeTrips(fetchedData) {
 }
 
 function displayTripCards(userObj) {
-
+    const cardGrid = document.querySelector('.card-grid')
     cardGrid.innerHTML = ''
     userObj.userTrips.forEach(trip => {
 
@@ -105,15 +86,14 @@ function displayTripCards(userObj) {
     })
 }
 
-function checkExistance(arrayToCheck) {
-    return Array.every()
-}
-
 function bookTrip() {
-    if (!destinationDropDown.value || !travelersInput.value || !dateInput.value || !durationInput.value) {
-        errorSpace.innerText = `You need to enter all Fields!`
-    } else {
+    const dateInput = document.querySelector('#date-input')
+    const durationInput = document.querySelector('#duration-input')
+    const travelersInput = document.querySelector('#travelers-input')
 
+    if (!destinationDropDown.value || !travelersInput.value || !dateInput.value || !durationInput.value) {
+        document.querySelector('.empty-fields-error-message').innerText = `You need to enter all Fields!`
+    } else {
         const newUserTripObj = new Trip({
             id: makeTripID(),
             userID: currentUser.id,
@@ -124,19 +104,16 @@ function bookTrip() {
             status: 'pending',
             suggestedActivities: []
         })
-        const tripCost = newUserTripObj.calculateTripCost(allDestinations)
-            // console.log(tripCost)
 
-        tripCostDisplay.innerHTML = `This trip costs ${tripCost}$`
+        const tripCost = newUserTripObj.calculateTripCost(allDestinations)
+
+
+        document.querySelector('.trip-cost').innerHTML = `This trip costs ${tripCost}$`
 
         apiCalls.postData(newUserTripObj)
             .then(cardGrid.innerHTML = '')
             .then(getIntialData(currentUser.id))
     }
-
-
-
-    // makeTrips(apiCalls.loadData('trips'))
 }
 
 function makeDestinationDropDown(destinationsData) {

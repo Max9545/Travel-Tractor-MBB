@@ -1,6 +1,5 @@
-/* This is an example of using Sass, otherwise plain CSS works too*/
-
 $primary-background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgba(252, 70, 107, 1) 100%);
+$creamyColor: blanchedalmond;
 ;
 body {
     background: $primary-background;
@@ -8,7 +7,8 @@ body {
     height: 100vh;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr .7fr 2fr;
-    grid-template-areas: "h1 annual-cost" "booking booking" "card-grid card-grid"
+    grid-template-areas: "h1 annual-cost" "booking booking" "card-grid card-grid";
+    border-radius: 3px;
 }
 
 img {
@@ -18,12 +18,13 @@ img {
 h1 {
     background-color: rgb(0, 255, 145);
     grid-area: h1;
+    padding-left: 1vw;
 }
 
 .annual-cost {
     background-color: blue;
     grid-area: annual-cost;
-    color: blanchedalmond;
+    color: $creamyColor;
     padding: 2em;
 }
 
@@ -39,10 +40,11 @@ h1 {
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 10px;
     padding: 1rem;
+    margin-top: 2vh;
 }
 
 .card {
-    background-color: blanchedalmond;
+    background-color: $creamyColor;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -65,7 +67,7 @@ h1 {
     background: rgb(210, 21, 220);
     margin: auto;
     top: 25%;
-    border: 2px solid rgba(128, 4, 4, 0.605);
+    border: 4px solid rgba(128, 4, 4, 0.605);
     display: flex;
     flex-direction: column;
     padding: 5%;
@@ -85,5 +87,9 @@ h1 {
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    cursor: pointer;
+    cursor: crosshair;
+}
+
+.date {
+    padding-left: 2vw;
 }
