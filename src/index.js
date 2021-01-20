@@ -9,6 +9,8 @@ import { sign } from 'crypto';
 const signInButton = document.querySelector('.sign-in-button')
 const destinationDropDown = document.querySelector('#destination-select-drop-down')
 const bookButton = document.querySelector('.book-trip')
+const cardGrid = document.querySelector('.card-grid')
+
 
 signInButton.addEventListener('click', attemptSignIn)
 bookButton.addEventListener('click', bookTrip)
@@ -67,7 +69,7 @@ function makeTrips(fetchedData) {
 }
 
 function displayTripCards(userObj) {
-    const cardGrid = document.querySelector('.card-grid')
+
     cardGrid.innerHTML = ''
     userObj.userTrips.forEach(trip => {
 
@@ -117,7 +119,6 @@ function bookTrip() {
 }
 
 function makeDestinationDropDown(destinationsData) {
-    console.log(destinationsData)
     destinationsData.forEach(destination => destinationDropDown.insertAdjacentHTML('afterbegin', `<option id = '${destination.destinationID} class='destination-select value = "${destination.destination}">${destination.destination}</option>`))
 }
 
