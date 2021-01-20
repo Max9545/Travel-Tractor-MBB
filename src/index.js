@@ -8,66 +8,91 @@ import apiCalls from './APICalls.js';
 import './images/turing-logo.png';
 import Trip from './trip.js'
 import User from './user.js'
-
+const errorSpace = document.querySelector('.empty-fields-error-message')
+    // const overLay = document.querySelector('#overlay')
+    // const userSignInBox = document.querySelector('#user-sign-in-box')
+const signInButton = document.querySelector('.sign-in-button')
 const annualCost = document.querySelector('.annual-cost')
 const cardGrid = document.querySelector('.card-grid')
 const dateInput = document.querySelector('#date-input')
 const durationInput = document.querySelector('#duration-input')
 const travelersInput = document.querySelector('#travelers-input')
-    //const destinationInput = document.querySelector('.destination-select')
+const destinationInput = document.querySelector('.destination-select')
 const destinationDropDown = document.querySelector('#destination-select-drop-down')
 const bookButton = document.querySelector('.book-trip')
 const tripCostDisplay = document.querySelector('.trip-cost')
 
+signInButton.addEventListener('click', attemptSignIn)
 bookButton.addEventListener('click', bookTrip)
 
 console.log('This is the JavaScript entry file - your code begins here.');
 
-window.addEventListener('load', getIntialData)
+// window.addEventListener('load', getIntialData)
 
-// const fetchedTravelers = apiCalls.loadData('travelers')
-// const fetchedTrips = apiCalls.loadData('trips')
-// const fetchedDestinations = apiCalls.loadData('destinations')
 let allTripsData, currentUser, allDestinations
 
-function getIntialData() {
-    const fetchedTravelers = apiCalls.loadData('travelers')
+
+
+function attemptSignIn() {
+    const passwordAttempt = document.querySelector('#password-input').value
+    const userNameAttempt = document.querySelector('#username-input').value
+    const nameCutOff = 8
+    const userName = userNameAttempt.slice(0, nameCutOff)
+    const userID = parseInt(userNameAttempt.slice(8))
+    if (userName === 'traveler' && passwordAttempt === 'travel2020') {
+        getIntialData(userID)
+            // userSignInBox.classList.add('hidden')
+    } else {
+        console.log('boopy!')
+    }
+
+}
+
+function getIntialData(userID) {
+    const fetchedTravelers = apiCalls.loadData(`travelers/${userID}`)
     const fetchedTrips = apiCalls.loadData('trips')
     const fetchedDestinations = apiCalls.loadData('destinations')
     Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
         .then(values => {
+            hideHTMLElement('user-sign-in-box')
+            hideHTMLElement('overlay')
             makeDestinations(values[2])
             makeTrips(values[1])
             makeUser(values[0])
-        }).catch('Error in getIntialData')
+        }).catch(displayErrorMessage)
 }
 
 function makeUser(userObj) {
-    currentUser = new User(userObj.travelers[0], allTripsData)
+    currentUser = new User(userObj, allTripsData)
     displayAnnualCost()
     currentUser.getDestinations(allDestinations)
-        //Steve help here- get this to work on instantiation
+
     displayTripCards(currentUser)
 }
 
 function displayAnnualCost() {
-    annualCost.innerHTML = `You have spent ${numberWithCommas(currentUser.calculateSumCostOfYear(allTripsData, allDestinations))}$ this year ${currentUser.name}`
+    annualCost.innerHTML = `You have spent ${numberWithCommas(currentUser.calculateSumCostOfYear(allTripsData, allDestinations))}$this year ${currentUser.name}`
 }
 
 function makeDestinations(desinationObj) {
     allDestinations = desinationObj.destinations
+
     makeDestinationDropDown(allDestinations)
 }
 
 function makeTrips(fetchedData) {
     allTripsData = fetchedData.trips
-        // use Trip class?
+
 }
 
 function displayTripCards(userObj) {
+
+    cardGrid.innerHTML = ''
     userObj.userTrips.forEach(trip => {
 
-        const destinationObj = userObj.userDestinations.find(destination => destination.id === trip.destinationID)
+        const destinationObj = userObj.userDestinations.find(destination =>
+            destination.id === trip.destinationID
+        )
 
         cardGrid.innerHTML += `<article class='card'>
         <p class='destination-name'>${destinationObj.destination}</p>
@@ -80,36 +105,43 @@ function displayTripCards(userObj) {
     })
 }
 
-// function getRandomInt(max) {
-//     return Math.floor(Math.random() * Math.floor(max));
-// }
+function checkExistance(arrayToCheck) {
+    return Array.every()
+}
 
 function bookTrip() {
-    const newUserTripObj = new Trip({
-        id: makeTripID(),
-        userID: currentUser.id,
-        destinationID: getDestinationID(destinationDropDown.value),
-        travelers: travelersInput.value,
-        date: formatDate(dateInput.value),
-        duration: durationInput.value,
-        status: 'pending',
-        suggestedActivities: []
-    })
-    const tripCost = newUserTripObj.calculateTripCost(allDestinations)
-        // console.log(tripCost)
+    if (!destinationDropDown.value || !travelersInput.value || !dateInput.value || !durationInput.value) {
+        errorSpace.innerText = `You need to enter all Fields!`
+    } else {
 
-    tripCostDisplay.innerHTML = `This trip costs ${tripCost}$`
+        const newUserTripObj = new Trip({
+            id: makeTripID(),
+            userID: currentUser.id,
+            destinationID: getDestinationID(destinationDropDown.value),
+            travelers: travelersInput.value,
+            date: formatDate(dateInput.value),
+            duration: durationInput.value,
+            status: 'pending',
+            suggestedActivities: []
+        })
+        const tripCost = newUserTripObj.calculateTripCost(allDestinations)
+            // console.log(tripCost)
 
-    apiCalls.postData(newUserTripObj)
-        .then(cardGrid.innerHTML = '')
-        .then(getIntialData())
+        tripCostDisplay.innerHTML = `This trip costs ${tripCost}$`
+
+        apiCalls.postData(newUserTripObj)
+            .then(cardGrid.innerHTML = '')
+            .then(getIntialData(currentUser.id))
+    }
+
 
 
     // makeTrips(apiCalls.loadData('trips'))
 }
 
 function makeDestinationDropDown(destinationsData) {
-    destinationsData.forEach(destination => destinationDropDown.insertAdjacentHTML('afterbegin', `<option id='${destination.destinationID} class='destination-select''value="${destination.destination}">${destination.destination}</option>`))
+    console.log(destinationsData)
+    destinationsData.forEach(destination => destinationDropDown.insertAdjacentHTML('afterbegin', `<option id = '${destination.destinationID} class='destination-select value = "${destination.destination}">${destination.destination}</option>`))
 }
 
 function getDestinationID(nameOfPlace) {
@@ -128,4 +160,17 @@ function formatDate(date) {
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function displayErrorMessage() {
+    console.log('life = pain');
+}
+
+function hideHTMLElement(element) {
+
+    const elementToHide = document.getElementById(element);
+
+    elementToHide.classList.add('hidden')
+
+
 }
