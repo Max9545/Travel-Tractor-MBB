@@ -26,6 +26,13 @@ const domUpdates = {
     displayErrorMessage() {
         console.log('Error Will Robinson');
         cardGrid.innerHTML = '<p>These are not the Cards you are Looking For'
+    },
+    emptyFieldsError() {
+        document.querySelector('.empty-fields-error-message').innerText = `You need to enter all Fields!`
+    },
+    displayTripCost(tripCost) {
+        const tripCost = document.querySelector('.trip-cost')
+        tripCost.innerHTML = `This trip costs ${tripCost}$`
     }
 }
 export default domUpdates;

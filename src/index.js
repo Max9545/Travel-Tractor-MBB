@@ -73,7 +73,7 @@ function bookTrip() {
     const travelersInput = document.querySelector('#travelers-input')
 
     if (!destinationDropDown.value || !travelersInput.value || !dateInput.value || !durationInput.value) {
-        document.querySelector('.empty-fields-error-message').innerText = `You need to enter all Fields!`
+        domUpdates.emptyFieldsError()
     } else {
         const newUserTripObj = new Trip({
             id: makeTripID(),
@@ -88,8 +88,8 @@ function bookTrip() {
 
         const tripCost = newUserTripObj.calculateTripCost(allDestinations)
 
-
-        document.querySelector('.trip-cost').innerHTML = `This trip costs ${tripCost}$`
+        displayTripCost()
+            // document.querySelector('.trip-cost').innerHTML = `This trip costs ${tripCost}$`
 
         apiCalls.postData(newUserTripObj)
             .then(domUpdates.clearCardGrid)
