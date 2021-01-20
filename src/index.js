@@ -86,18 +86,14 @@ function displayTripCards(userObj) {
     })
 }
 
-function checkExistance(arrayToCheck) {
-    return Array.every()
-}
-
 function bookTrip() {
     const dateInput = document.querySelector('#date-input')
     const durationInput = document.querySelector('#duration-input')
     const travelersInput = document.querySelector('#travelers-input')
+
     if (!destinationDropDown.value || !travelersInput.value || !dateInput.value || !durationInput.value) {
         document.querySelector('.empty-fields-error-message').innerText = `You need to enter all Fields!`
     } else {
-
         const newUserTripObj = new Trip({
             id: makeTripID(),
             userID: currentUser.id,
@@ -108,8 +104,9 @@ function bookTrip() {
             status: 'pending',
             suggestedActivities: []
         })
+
         const tripCost = newUserTripObj.calculateTripCost(allDestinations)
-            // console.log(tripCost)
+
 
         document.querySelector('.trip-cost').innerHTML = `This trip costs ${tripCost}$`
 
