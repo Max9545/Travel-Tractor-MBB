@@ -43,7 +43,7 @@ function getIntialData() {
 }
 
 function makeUser(userObj) {
-    currentUser = new User(userObj.travelers[0], allTripsData)
+    currentUser = new User(userObj.travelers[43], allTripsData)
     displayAnnualCost()
     currentUser.getDestinations(allDestinations)
         //Steve help here- get this to work on instantiation
