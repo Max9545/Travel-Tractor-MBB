@@ -36,7 +36,8 @@ let allTripsData, currentUser, allDestinations
 function attemptSignIn() {
     const passwordAttempt = document.querySelector('#password-input').value
     const userNameAttempt = document.querySelector('#username-input').value
-    const userName = userNameAttempt.slice(0, 8)
+    const nameCutOff = 8
+    const userName = userNameAttempt.slice(0, nameCutOff)
     const userID = parseInt(userNameAttempt.slice(8))
     if (userName === 'traveler' && passwordAttempt === 'travel2020') {
         getIntialData(userID)
@@ -53,29 +54,24 @@ function getIntialData(userID) {
     const fetchedDestinations = apiCalls.loadData('destinations')
     Promise.all([fetchedTravelers, fetchedTrips, fetchedDestinations])
         .then(values => {
-            if (values[0].id) {
-                hideHTMLElement('user-sign-in-box')
-                hideHTMLElement('overlay')
-                makeDestinations(values[2])
-                makeTrips(values[1])
-                makeUser(values[0])
-            } else {
-                displayErrorMessage()
-            }
-
-        }).catch('Error in getIntialData')
+            hideHTMLElement('user-sign-in-box')
+            hideHTMLElement('overlay')
+            makeDestinations(values[2])
+            makeTrips(values[1])
+            makeUser(values[0])
+        }).catch(displayErrorMessage)
 }
 
 function makeUser(userObj) {
     currentUser = new User(userObj, allTripsData)
     displayAnnualCost()
     currentUser.getDestinations(allDestinations)
-        //Steve help here- get this to work on instantiation
+
     displayTripCards(currentUser)
 }
 
 function displayAnnualCost() {
-    annualCost.innerHTML = `You have spent ${numberWithCommas(currentUser.calculateSumCostOfYear(allTripsData, allDestinations))}$ this year ${currentUser.name}`
+    annualCost.innerHTML = `You have spent ${numberWithCommas(currentUser.calculateSumCostOfYear(allTripsData, allDestinations))}$this year ${currentUser.name}`
 }
 
 function makeDestinations(desinationObj) {
@@ -86,7 +82,7 @@ function makeDestinations(desinationObj) {
 
 function makeTrips(fetchedData) {
     allTripsData = fetchedData.trips
-        // use Trip class?
+
 }
 
 function displayTripCards(userObj) {
@@ -94,7 +90,9 @@ function displayTripCards(userObj) {
     cardGrid.innerHTML = ''
     userObj.userTrips.forEach(trip => {
 
-        const destinationObj = userObj.userDestinations.find(destination => destination.id === trip.destinationID)
+        const destinationObj = userObj.userDestinations.find(destination =>
+            destination.id === trip.destinationID
+        )
 
         cardGrid.innerHTML += `<article class='card'>
         <p class='destination-name'>${destinationObj.destination}</p>
@@ -105,6 +103,10 @@ function displayTripCards(userObj) {
         </div>
     </article>`
     })
+}
+
+function checkExistance(arrayToCheck) {
+    return Array.every()
 }
 
 function bookTrip() {
@@ -169,8 +171,6 @@ function hideHTMLElement(element) {
     const elementToHide = document.getElementById(element);
 
     elementToHide.classList.add('hidden')
-        // if (!elementToHide.classList.value.includes('hidden')) {
-        //     elementToHide.classList.add('.hidden')
-        // }
+
 
 }
