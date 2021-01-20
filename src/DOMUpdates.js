@@ -19,6 +19,13 @@ const domUpdates = {
         </div>
     </article>`
         })
+    },
+    makeDestinationDropDown(destinationsData) {
+        destinationsData.forEach(destination => destinationDropDown.insertAdjacentHTML('afterbegin', `<option id = '${destination.destinationID} class='destination-select value = "${destination.destination}">${destination.destination}</option>`))
+    },
+    displayErrorMessage() {
+        console.log('Error Will Robinson');
+        cardGrid.innerHTML = '<p>These are not the Cards you are Looking For'
     }
 }
 export default domUpdates;

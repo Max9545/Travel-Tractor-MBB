@@ -41,7 +41,7 @@ function getIntialData(userID) {
             makeDestinations(values[2])
             makeTrips(values[1])
             makeUser(values[0])
-        }).catch(displayErrorMessage)
+        }).catch(domUpdates.displayErrorMessage())
 }
 
 function makeUser(userObj) {
@@ -50,7 +50,6 @@ function makeUser(userObj) {
     currentUser.getDestinations(allDestinations)
 
     domUpdates.displayTripCards(currentUser)
-        // displayTripCards(currentUser)
 }
 
 function displayAnnualCost() {
@@ -60,33 +59,13 @@ function displayAnnualCost() {
 function makeDestinations(desinationObj) {
     allDestinations = desinationObj.destinations
 
-    makeDestinationDropDown(allDestinations)
+    domUpdates.makeDestinationDropDown(allDestinations)
 }
 
 function makeTrips(fetchedData) {
     allTripsData = fetchedData.trips
 
 }
-
-// function displayTripCards(userObj) {
-
-//     cardGrid.innerHTML = ''
-//     userObj.userTrips.forEach(trip => {
-
-//         const destinationObj = userObj.userDestinations.find(destination =>
-//             destination.id === trip.destinationID
-//         )
-
-//         cardGrid.innerHTML += `<article class='card'>
-//     <p class='destination-name'>${destinationObj.destination}</p>
-//     <img id='pic-destination' src=${destinationObj.image} alt=${destinationObj.alt}>
-//     <div class='trip-info'>
-//         <p class='date'>${trip.date}</p>
-//         <p class='status'>${trip.status}</p>
-//     </div>
-// </article>`
-//     })
-// }
 
 function bookTrip() {
     const dateInput = document.querySelector('#date-input')
@@ -118,10 +97,6 @@ function bookTrip() {
     }
 }
 
-function makeDestinationDropDown(destinationsData) {
-    destinationsData.forEach(destination => destinationDropDown.insertAdjacentHTML('afterbegin', `<option id = '${destination.destinationID} class='destination-select value = "${destination.destination}">${destination.destination}</option>`))
-}
-
 function getDestinationID(nameOfPlace) {
     const trip = allDestinations.find(destination => destination.destination === nameOfPlace)
     return trip.id
@@ -140,15 +115,11 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function displayErrorMessage() {
-    console.log('life = pain');
-}
 
 function hideHTMLElement(element) {
 
     const elementToHide = document.getElementById(element);
 
     elementToHide.classList.add('hidden')
-
 
 }
