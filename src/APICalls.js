@@ -15,7 +15,7 @@
                  body: JSON.stringify(objToPost)
              })
              .then(response => response.json())
-             // .catch(error => console.log(error))
+             .catch(domUpdates.displayErrorMessage())
      }
 
  }

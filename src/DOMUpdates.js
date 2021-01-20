@@ -27,8 +27,7 @@ const domUpdates = {
         destinationsData.forEach(destination => destinationDropDownData.insertAdjacentHTML('afterbegin', `<option id = '${destination.destinationID} class='destination-select value = "${destination.destination}">${destination.destination}</option>`))
     },
     displayErrorMessage() {
-        console.log('Error Will Robinson');
-        cardGrid.innerHTML = '<p>These are not the Cards you are Looking For'
+        cardGrid.innerHTML = '<p>These are not the Cards you are Looking For</p>'
     },
     emptyFieldsError() {
         document.querySelector('.empty-fields-error-message').innerText = `You need to enter all Fields!`

@@ -28,7 +28,8 @@ h1 {
     background-color: hsl(80, 61%, 50%);
     grid-area: booking;
     padding: 2vh;
-    @include border(20px); //is this too many layers? the elements seem very small so I thought it might be better for readability
+    @include border(20px);
+    //is this too many layers? the elements seem very small so I thought it might be better for readability
     .date {
         padding-left: 2vw;
         .book-trip {
