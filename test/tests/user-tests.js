@@ -4,51 +4,45 @@ const expect = chai.expect;
 import travelersTestData from '../test-data/travelers-test-data.js'
 import tripsTestData from '../test-data/trips-test-data.js'
 import destinationsTestData from '../test-data/destinations-test-data.js'
-import Trip from '/Users/maxbregman/Turing_Main/Mod2/projects/Mod2_Travel_Tractor/Travel-Tractor-MBB/src/trip.js'
 import User from '/Users/maxbregman/Turing_Main/Mod2/projects/Mod2_Travel_Tractor/Travel-Tractor-MBB/src/user.js'
 
-
-
 let user, testUserData
-
 
 describe('Make a User Class', function() {
     beforeEach(() => {
 
-        user = new User(travelersTestData[29])
+        user = new User(travelersTestData[29], tripsTestData)
 
         testUserData = travelersTestData[29]
     })
 
     it('should have a name', function() {
 
-        console.log(testUserData);
+
 
         expect(user.name).to.equal(testUserData.name)
     })
 
     it('should have a type', function() {
 
-        console.log(testUserData);
-
-        expect(user.type).to.equal(testUserData.type)
+        expect(user.type).to.equal(testUserData.travelerType)
     })
 
     it('should have a id', function() {
 
-        console.log(testUserData);
+
 
         expect(user.id).to.equal(testUserData.id)
     })
 
     it('should see if the trip occured in the last year', function() {
 
-        expect(user.checkDate("2019/09/16")).to.equal(false)
+        expect(user.checkIfTripHappenedThisYear("2019/09/16")).to.equal(false)
 
-        expect(user.checkDate("2020/09/16")).to.equal(true)
+        expect(user.checkIfTripHappenedThisYear("2020/09/16")).to.equal(true)
     })
 
-    it('should calculate a trips flight cost', function() {
+    it('should return a trips flight cost', function() {
 
         expect(user.calculateFlightCost(destinationsTestData[0], tripsTestData[0])).to.equal(800)
     })
