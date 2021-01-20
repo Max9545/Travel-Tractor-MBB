@@ -32,7 +32,6 @@ class User {
     }
 
     getDestinations(destinationData) {
-        //get this up in properties like usertrips
         this.userDestinations = destinationData.reduce((acc, destination) => {
             this.userTrips.forEach(trip => {
                 if (trip.destinationID === destination.id) {

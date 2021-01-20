@@ -3,14 +3,11 @@ import apiCalls from './APICalls.js';
 import './images/turing-logo.png';
 import Trip from './trip.js'
 import User from './user.js'
-import { sign } from 'crypto';
-
+import domUpdates from './DOMUpdates.js'
 
 const signInButton = document.querySelector('.sign-in-button')
 const destinationDropDown = document.querySelector('#destination-select-drop-down')
 const bookButton = document.querySelector('.book-trip')
-const cardGrid = document.querySelector('.card-grid')
-
 
 signInButton.addEventListener('click', attemptSignIn)
 bookButton.addEventListener('click', bookTrip)
@@ -42,50 +39,28 @@ function getIntialData(userID) {
             makeDestinations(values[2])
             makeTrips(values[1])
             makeUser(values[0])
-        }).catch(displayErrorMessage)
+        }).catch(domUpdates.displayErrorMessage())
 }
 
 function makeUser(userObj) {
     currentUser = new User(userObj, allTripsData)
-    displayAnnualCost()
+    const cost = currentUser.calculateSumCostOfYear(allTripsData, allDestinations)
+    const name = currentUser.name
+    domUpdates.displayAnnualCost(cost, name)
     currentUser.getDestinations(allDestinations)
 
-    displayTripCards(currentUser)
-}
-
-function displayAnnualCost() {
-    document.querySelector('.annual-cost').innerHTML = `You have spent ${numberWithCommas(currentUser.calculateSumCostOfYear(allTripsData, allDestinations))}$this year ${currentUser.name}`
+    domUpdates.displayTripCards(currentUser)
 }
 
 function makeDestinations(desinationObj) {
     allDestinations = desinationObj.destinations
 
-    makeDestinationDropDown(allDestinations)
+    domUpdates.makeDestinationDropDown(allDestinations, destinationDropDown)
 }
 
 function makeTrips(fetchedData) {
     allTripsData = fetchedData.trips
 
-}
-
-function displayTripCards(userObj) {
-
-    cardGrid.innerHTML = ''
-    userObj.userTrips.forEach(trip => {
-
-        const destinationObj = userObj.userDestinations.find(destination =>
-            destination.id === trip.destinationID
-        )
-
-        cardGrid.innerHTML += `<article class='card'>
-        <p class='destination-name'>${destinationObj.destination}</p>
-        <img id='pic-destination' src=${destinationObj.image} alt=${destinationObj.alt}>
-        <div class='trip-info'>
-            <p class='date'>${trip.date}</p>
-            <p class='status'>${trip.status}</p>
-        </div>
-    </article>`
-    })
 }
 
 function bookTrip() {
@@ -94,7 +69,7 @@ function bookTrip() {
     const travelersInput = document.querySelector('#travelers-input')
 
     if (!destinationDropDown.value || !travelersInput.value || !dateInput.value || !durationInput.value) {
-        document.querySelector('.empty-fields-error-message').innerText = `You need to enter all Fields!`
+        domUpdates.emptyFieldsError()
     } else {
         const newUserTripObj = new Trip({
             id: makeTripID(),
@@ -109,17 +84,12 @@ function bookTrip() {
 
         const tripCost = newUserTripObj.calculateTripCost(allDestinations)
 
-
-        document.querySelector('.trip-cost').innerHTML = `This trip costs ${tripCost}$`
+        domUpdates.displayTripCost(tripCost)
 
         apiCalls.postData(newUserTripObj)
-            .then(cardGrid.innerHTML = '')
+            .then(domUpdates.clearCardGrid())
             .then(getIntialData(currentUser.id))
     }
-}
-
-function makeDestinationDropDown(destinationsData) {
-    destinationsData.forEach(destination => destinationDropDown.insertAdjacentHTML('afterbegin', `<option id = '${destination.destinationID} class='destination-select value = "${destination.destination}">${destination.destination}</option>`))
 }
 
 function getDestinationID(nameOfPlace) {
@@ -136,19 +106,10 @@ function formatDate(date) {
     return dateInfo.join('/');
 }
 
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-function displayErrorMessage() {
-    console.log('life = pain');
-}
-
 function hideHTMLElement(element) {
 
     const elementToHide = document.getElementById(element);
 
     elementToHide.classList.add('hidden')
-
 
 }
