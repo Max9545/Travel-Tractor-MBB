@@ -39,7 +39,7 @@ Click around and make a trip!
 ![video of site use](https://media.giphy.com/media/fVWER7suPkawkAquVl/giphy.gif)
 
 ## Contributing
-Max Bregman
+Max Bregman, Steve Kinney
 
 Please make sure to update tests as appropriate.
 
