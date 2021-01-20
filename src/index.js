@@ -3,8 +3,7 @@ import apiCalls from './APICalls.js';
 import './images/turing-logo.png';
 import Trip from './trip.js'
 import User from './user.js'
-import { sign } from 'crypto';
-
+import domUpdates from './DOMUpdates.js'
 
 const signInButton = document.querySelector('.sign-in-button')
 const destinationDropDown = document.querySelector('#destination-select-drop-down')
@@ -50,7 +49,8 @@ function makeUser(userObj) {
     displayAnnualCost()
     currentUser.getDestinations(allDestinations)
 
-    displayTripCards(currentUser)
+    domUpdates.displayTripCards(currentUser)
+        // displayTripCards(currentUser)
 }
 
 function displayAnnualCost() {
@@ -68,25 +68,25 @@ function makeTrips(fetchedData) {
 
 }
 
-function displayTripCards(userObj) {
+// function displayTripCards(userObj) {
 
-    cardGrid.innerHTML = ''
-    userObj.userTrips.forEach(trip => {
+//     cardGrid.innerHTML = ''
+//     userObj.userTrips.forEach(trip => {
 
-        const destinationObj = userObj.userDestinations.find(destination =>
-            destination.id === trip.destinationID
-        )
+//         const destinationObj = userObj.userDestinations.find(destination =>
+//             destination.id === trip.destinationID
+//         )
 
-        cardGrid.innerHTML += `<article class='card'>
-        <p class='destination-name'>${destinationObj.destination}</p>
-        <img id='pic-destination' src=${destinationObj.image} alt=${destinationObj.alt}>
-        <div class='trip-info'>
-            <p class='date'>${trip.date}</p>
-            <p class='status'>${trip.status}</p>
-        </div>
-    </article>`
-    })
-}
+//         cardGrid.innerHTML += `<article class='card'>
+//     <p class='destination-name'>${destinationObj.destination}</p>
+//     <img id='pic-destination' src=${destinationObj.image} alt=${destinationObj.alt}>
+//     <div class='trip-info'>
+//         <p class='date'>${trip.date}</p>
+//         <p class='status'>${trip.status}</p>
+//     </div>
+// </article>`
+//     })
+// }
 
 function bookTrip() {
     const dateInput = document.querySelector('#date-input')
