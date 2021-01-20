@@ -8,8 +8,7 @@ import domUpdates from './DOMUpdates.js'
 const signInButton = document.querySelector('.sign-in-button')
 const destinationDropDown = document.querySelector('#destination-select-drop-down')
 const bookButton = document.querySelector('.book-trip')
-const cardGrid = document.querySelector('.card-grid')
-
+    // const cardGrid = document.querySelector('.card-grid')
 
 signInButton.addEventListener('click', attemptSignIn)
 bookButton.addEventListener('click', bookTrip)
@@ -46,20 +45,22 @@ function getIntialData(userID) {
 
 function makeUser(userObj) {
     currentUser = new User(userObj, allTripsData)
-    displayAnnualCost()
+    const cost = currentUser.calculateSumCostOfYear(allTripsData, allDestinations)
+    const name = currentUser.name
+    domUpdates.displayAnnualCost(cost, name)
     currentUser.getDestinations(allDestinations)
 
     domUpdates.displayTripCards(currentUser)
 }
 
-function displayAnnualCost() {
-    document.querySelector('.annual-cost').innerHTML = `You have spent ${numberWithCommas(currentUser.calculateSumCostOfYear(allTripsData, allDestinations))}$this year ${currentUser.name}`
-}
+// function displayAnnualCost() {
+//     document.querySelector('.annual-cost').innerHTML = `You have spent ${numberWithCommas(currentUser.calculateSumCostOfYear(allTripsData, allDestinations))}$this year ${currentUser.name}`
+// }
 
 function makeDestinations(desinationObj) {
     allDestinations = desinationObj.destinations
 
-    domUpdates.makeDestinationDropDown(allDestinations)
+    domUpdates.makeDestinationDropDown(allDestinations, destinationDropDown)
 }
 
 function makeTrips(fetchedData) {
@@ -88,11 +89,10 @@ function bookTrip() {
 
         const tripCost = newUserTripObj.calculateTripCost(allDestinations)
 
-        displayTripCost()
-            // document.querySelector('.trip-cost').innerHTML = `This trip costs ${tripCost}$`
+        domUpdates.displayTripCost(tripCost)
 
         apiCalls.postData(newUserTripObj)
-            .then(domUpdates.clearCardGrid)
+            .then(domUpdates.clearCardGrid())
             .then(getIntialData(currentUser.id))
     }
 }
@@ -111,9 +111,9 @@ function formatDate(date) {
     return dateInfo.join('/');
 }
 
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+// function numberWithCommas(x) {
+//     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+// }
 
 
 function hideHTMLElement(element) {

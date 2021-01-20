@@ -1,4 +1,7 @@
+const cardGrid = document.querySelector('.card-grid')
+
 const domUpdates = {
+
     clearCardGrid() {
         cardGrid.innerHTML = ''
     },
@@ -20,8 +23,8 @@ const domUpdates = {
     </article>`
         })
     },
-    makeDestinationDropDown(destinationsData) {
-        destinationsData.forEach(destination => destinationDropDown.insertAdjacentHTML('afterbegin', `<option id = '${destination.destinationID} class='destination-select value = "${destination.destination}">${destination.destination}</option>`))
+    makeDestinationDropDown(destinationsData, destinationDropDownData) {
+        destinationsData.forEach(destination => destinationDropDownData.insertAdjacentHTML('afterbegin', `<option id = '${destination.destinationID} class='destination-select value = "${destination.destination}">${destination.destination}</option>`))
     },
     displayErrorMessage() {
         console.log('Error Will Robinson');
@@ -30,9 +33,18 @@ const domUpdates = {
     emptyFieldsError() {
         document.querySelector('.empty-fields-error-message').innerText = `You need to enter all Fields!`
     },
-    displayTripCost(tripCost) {
+    displayTripCost(tripCostData) {
         const tripCost = document.querySelector('.trip-cost')
-        tripCost.innerHTML = `This trip costs ${tripCost}$`
+        tripCost.innerHTML = `This trip costs ${tripCostData}$`
+    },
+    displayAnnualCost(cost, name) {
+        const annualCost = document.querySelector('.annual-cost')
+        const formattedCost = this.numberWithCommas(cost)
+        annualCost.innerHTML = `You have spent $${formattedCost} this year ${name}`
+    },
+    numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+
 }
 export default domUpdates;
