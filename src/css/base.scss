@@ -1,6 +1,4 @@
-$primary-background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgba(252, 70, 107, 1) 100%);
-$creamyColor: blanchedalmond;
-;
+@import 'SASSVariables';
 body {
     background: $primary-background;
     display: grid;
@@ -11,26 +9,33 @@ body {
     border-radius: 3px;
 }
 
-img {
-    height: 5em;
-}
-
 h1 {
     background-color: rgb(0, 255, 145);
     grid-area: h1;
-    padding-left: 1vw;
+    padding-left: 1.8vw;
+    padding-top: 2.5vh;
+    @include border(8px)
 }
 
 .annual-cost {
+    @extend h1;
     background-color: blue;
     grid-area: annual-cost;
     color: $creamyColor;
-    padding: 2em;
 }
 
 .booking {
-    background-color: yellowgreen;
+    background-color: hsl(80, 61%, 50%);
     grid-area: booking;
+    padding: 2vh;
+    @include border(20px); //is this too many layers? the elements seem very small so I thought it might be better for readability
+    .date {
+        padding-left: 2vw;
+        .book-trip {
+            height: 5vh;
+            @include border(2px);
+        }
+    }
 }
 
 .card-grid {
@@ -41,6 +46,7 @@ h1 {
     grid-gap: 10px;
     padding: 1rem;
     margin-top: 2vh;
+    @include border(20px)
 }
 
 .card {
@@ -49,10 +55,9 @@ h1 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.book-trip {
-    height: 5vh;
+    img {
+        height: 5em;
+    }
 }
 
 .user-sign-in-box {
@@ -71,7 +76,7 @@ h1 {
     display: flex;
     flex-direction: column;
     padding: 5%;
-    border-radius: 5px
+    @include border(75px)
 }
 
 .hidden {
@@ -88,8 +93,4 @@ h1 {
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
     cursor: crosshair;
-}
-
-.date {
-    padding-left: 2vw;
 }

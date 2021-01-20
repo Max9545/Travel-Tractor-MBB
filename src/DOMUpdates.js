@@ -37,10 +37,10 @@ const domUpdates = {
         const tripCost = document.querySelector('.trip-cost')
         tripCost.innerHTML = `This trip costs ${tripCostData}$`
     },
-    displayAnnualCost(cost, name) {
+    displayAnnualCost(costData, nameData) {
         const annualCost = document.querySelector('.annual-cost')
-        const formattedCost = this.numberWithCommas(cost)
-        annualCost.innerHTML = `You have spent $${formattedCost} this year ${name}`
+        const formattedCost = this.numberWithCommas(costData)
+        annualCost.innerHTML = `You have spent $${formattedCost} this year ${nameData}`
     },
     numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

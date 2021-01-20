@@ -8,7 +8,6 @@ import domUpdates from './DOMUpdates.js'
 const signInButton = document.querySelector('.sign-in-button')
 const destinationDropDown = document.querySelector('#destination-select-drop-down')
 const bookButton = document.querySelector('.book-trip')
-    // const cardGrid = document.querySelector('.card-grid')
 
 signInButton.addEventListener('click', attemptSignIn)
 bookButton.addEventListener('click', bookTrip)
@@ -52,10 +51,6 @@ function makeUser(userObj) {
 
     domUpdates.displayTripCards(currentUser)
 }
-
-// function displayAnnualCost() {
-//     document.querySelector('.annual-cost').innerHTML = `You have spent ${numberWithCommas(currentUser.calculateSumCostOfYear(allTripsData, allDestinations))}$this year ${currentUser.name}`
-// }
 
 function makeDestinations(desinationObj) {
     allDestinations = desinationObj.destinations
@@ -110,11 +105,6 @@ function formatDate(date) {
     const dateInfo = date.split('-');
     return dateInfo.join('/');
 }
-
-// function numberWithCommas(x) {
-//     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-// }
-
 
 function hideHTMLElement(element) {
 

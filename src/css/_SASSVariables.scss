@@ -1,0 +1,5 @@
+$primary-background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgba(252, 70, 107, 1) 100%);
+$creamyColor: blanchedalmond;
+@mixin border($corner-radius) {
+    border-radius: $corner-radius;
+}
