@@ -113,7 +113,7 @@ function bookTrip() {
         document.querySelector('.trip-cost').innerHTML = `This trip costs ${tripCost}$`
 
         apiCalls.postData(newUserTripObj)
-            .then(cardGrid.innerHTML = '')
+            .then(domUpdates.clearCardGrid)
             .then(getIntialData(currentUser.id))
     }
 }

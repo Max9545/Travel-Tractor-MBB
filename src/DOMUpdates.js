@@ -1,9 +1,9 @@
 const domUpdates = {
-    cardGrid() {
+    clearCardGrid() {
         cardGrid.innerHTML = ''
     },
     displayTripCards(userObj) {
-        this.cardGrid()
+        this.clearCardGrid()
         userObj.userTrips.forEach(trip => {
 
             const destinationObj = userObj.userDestinations.find(destination =>
